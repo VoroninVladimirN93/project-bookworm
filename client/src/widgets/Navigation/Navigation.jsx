@@ -44,7 +44,7 @@ export default function Navigation({ user, setUser }) {
           </>
         )}
 
-        <Link to='/computers'>
+        <Link to='/books'>
           <Button text='Computers' />
         </Link>
 

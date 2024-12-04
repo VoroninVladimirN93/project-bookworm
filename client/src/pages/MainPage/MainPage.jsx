@@ -1,8 +1,11 @@
+import BooksPage from "../BookPage/BooksPage";
 
 export default function MainPage({user}) {
   return (
-    <div>
-Главная
-    </div>
+    
+<>
+<BooksPage user={user}/>
+</>
+    
   );
 }
