@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Rate, Card, message as antMessage, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import './BookCard.css'; // Создайте файл стилей для карточек
 
-function BookCard({ book, setBooks, user }) {
-
-  // console.log(book);
-  
+function OneBookCard({ book, setBooks, user }) {
+    console.log(user);
+    console.log(book);
+    
+    
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -46,23 +46,23 @@ function BookCard({ book, setBooks, user }) {
       className="book-card"
       cover={<img alt={book.title} src={book.photo} />}
       actions={[
-        <Button key="more" type="primary" onClick={redirectButtonHandler} className="full-width-button">
+        <Button key="more" type="primary" onClick={redirectButtonHandler}>
           Подробнее
         </Button>,
-        // user?.id === book.userId && (
-        //   <Button key="delete" type="danger" onClick={() => deleteBookHandler(book.title)}>
-        //     Удалить
-        //   </Button>
-        // ),
-        // user?.id === book.userId && (
-        //   <Button
-        //     key="update"
-        //     type="warning"
-        //     onClick={() => setShowUpdateForm((prev) => !prev)}
-        //   >
-        //     {showUpdateForm ? 'Скрыть' : 'Изменить'}
-        //   </Button>
-        // ),
+        (user?.id === book.userId && (
+          <Button key="delete" type="danger" onClick={() => deleteBookHandler(book.title)}>
+            Удалить
+          </Button>
+        )),
+        (user?.id === book.userId && (
+          <Button
+            key="update"
+            type="warning"
+            onClick={() => setShowUpdateForm((prev) => !prev)}
+          >
+            {showUpdateForm ? 'Скрыть' : 'Изменить'}
+          </Button>
+        )),
       ]}
     >
             <Rate disabled defaultValue={9} count={10} onChange={(star) => console.log(star)}/>
@@ -86,4 +86,4 @@ function BookCard({ book, setBooks, user }) {
   );
 }
 
-export default BookCard;
+export default OneBookCard;;

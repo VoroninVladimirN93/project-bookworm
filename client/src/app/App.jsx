@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import UserApi from "../entities/user/UserApi.js";
 import { setAccessToken } from "../shared/lib/axiosInstance.js";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
+import BookForm from "../widgets/BookForm/BookForm.jsx";
+import OneBookPage from "../pages/OneBookPage/OneBookPage.jsx";
 
 function App() {
   //NOTE - состояние user заведено в корневом компоненте, чтобы иметь возможность прокинуть его в любую точку приложения
@@ -39,6 +41,9 @@ function App() {
         { path: "/", element: <MainPage user={user} /> },
         { path: "/signin", element: <SignInPage setUser={setUser} /> },
         { path: "/signup", element: <SignUpPage setUser={setUser} /> },
+        { path: "/create_book", element: <BookForm setUser={setUser} /> },
+        { path: `/books/:id`, element: <OneBookPage setUser={setUser} /> },
+        
         
         // {
         //   path: '/computers',

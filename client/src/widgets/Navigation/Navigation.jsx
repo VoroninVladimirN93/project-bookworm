@@ -35,12 +35,12 @@ export default function Navigation({ user, setUser }) {
       <div className={styles.container}>
         <Button text='Книжный червь' onClick={() => navigate('/')} />
 
-        <span className={styles.span}>Добро пожаловать, {user?.username}</span>{' '}
+        {user && <span className={styles.span}>Добро пожаловать, {user?.username}</span>}{' '}
 
-        <Link to='/create_book'>
+  {user &&      <Link to='/create_book'>
           <Button text='Добавить новую книгу' />
-        </Link>
-
+        </Link>}
+     
         {!user && (
           <>
             <Link to='/signin'>

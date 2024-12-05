@@ -38,3 +38,6 @@
   .book-card .ant-card-actions > li > span {
     width: 100%;
   }
+  .book-card .full-width-button {
+    width: 100%;
+  }

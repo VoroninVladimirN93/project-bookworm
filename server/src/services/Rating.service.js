@@ -6,8 +6,12 @@ class RatingService {
     return await Rating.create(data);
   }
 
-  static async getByEmail(email) {
-    return await Rating.findOne({ where: { email } });
+  static async readOne(id) {
+    return await Rating.findAll({ where: { id } });
+  }
+
+  static async updateOne(id) {
+    return await Rating.update({ where: { id } });
   }
 }
 
