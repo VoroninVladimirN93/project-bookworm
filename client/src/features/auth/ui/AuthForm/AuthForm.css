@@ -1,0 +1,52 @@
+.auth-form {
+    max-width: 400px; /* Максимальная ширина формы */
+    margin: 0 auto; /* Центрировать форму на странице */
+    padding: 20px; /* Отступы внутри формы */
+    border: 1px solid #ccc; /* Граница вокруг формы */
+    border-radius: 5px; /* Закругленные углы */
+    background-color: #fff; /* Фон формы */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень для формы */
+  }
+  
+  .auth-form h3 {
+    text-align: center; /* Центрировать заголовок */
+    margin-bottom: 20px; /* Отступ снизу заголовка */
+  }
+  
+  .auth-form input {
+    width: 100%; /* Ширина инпутов на всю ширину родителя */
+    padding: 10px; /* Отступы внутри инпутов */
+    margin-bottom: 10px; /* Отступ снизу инпутов */
+    border: 1px solid #ccc; /* Граница инпутов */
+    border-radius: 5px; /* Закругленные углы инпутов */
+    font-size: 14px; /* Размер шрифта */
+  }
+  
+  .auth-form input:focus {
+    border-color: #4CAF50; /* Цвет границы при фокусе */
+    outline: none; /* Убираем стандартный фокусный контур */
+  }
+  
+  .auth-form .ant-radio-group {
+    margin-bottom: 10px; /* Отступ снизу группы радиокнопок */
+  }
+  
+  .auth-form button {
+    width: 100%; /* Кнопка на всю ширину родителя */
+    padding: 10px; /* Отступы внутри кнопки */
+    border: none; /* Убираем границу кнопки */
+    border-radius: 5px; /* Закругленные углы кнопки */
+    background-color: #4CAF50; /* Цвет фона кнопки */
+    color: white; /* Цвет текста в кнопке */
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Указатель при наведении */
+  }
+  
+  .auth-form button:disabled {
+    background-color: #ccc; /* Цвет фона кнопки, когда она отключена */
+    cursor: not-allowed; /* Указатель "нельзя" при наведении */
+  }
+  
+  .auth-form button:hover:not(:disabled) {
+    background-color: #45a049; /* Цвет фона кнопки при наведении */
+  } 
