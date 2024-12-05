@@ -9,28 +9,27 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Favorites, { foreignKey: "user_id" });
     }
   }
-  User.init(
-    {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: "",
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        unique: true,
-      },
+  User.init({
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+      defaultValue: '',
+    },
       phone: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: true,
         defaultValue: "",
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "",
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
       },
     },
     {
