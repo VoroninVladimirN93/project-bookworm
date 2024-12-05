@@ -15,7 +15,7 @@ export default function AuthForm({ type, setUser }) {
     authMethod: "email",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
   const changeHandler = ({ target }) => {
