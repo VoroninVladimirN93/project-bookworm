@@ -31,21 +31,14 @@ export default function Navigation({ user, setUser }) {
   //NOTE - в верстке есть опциональное отражение элементов в зависимости от наличия юзера в стейте
   return (
     <div>
+      
       <div className={styles.container}>
-        <Button text='Main' onClick={() => navigate('/')} />
+        <Button text='Книжный червь' onClick={() => navigate('/')} />
 
-        {user && (
-          <>
-            <span>{user.username}</span>{' '}
-            <Button text='signOut' onClick={signOutHandler} />{' '}
-            <Link to='/tasks'>
-              <Button text='Tasks' />
-            </Link>
-          </>
-        )}
+        <span className={styles.span}>Добро пожаловать, {user?.username}</span>{' '}
 
-        <Link to='/computers'>
-          <Button text='Computers' />
+        <Link to='/create_book'>
+          <Button text='Добавить новую книгу' />
         </Link>
 
         {!user && (
@@ -57,6 +50,13 @@ export default function Navigation({ user, setUser }) {
             <Link to='/signup'>
               <Button text='Signup' />
             </Link>
+          </>
+        )}
+                {user && (
+          <>
+    
+            <Button text='Выход' onClick={signOutHandler} />{' '}
+
           </>
         )}
       </div>

@@ -1,10 +1,20 @@
 .container {
-    position: fixed;
     top: 0;
     display: flex;
-    width: 100%;
+    width: 60%;
     justify-content: space-between;
     padding: 20px;
     margin-bottom: 40px;
     border-bottom: 1px solid white;
+  }
+
+  .span {
+  display: flex;
+  align-items: center; /* Центрирование по вертикали */
+  justify-content: center; /* Центрирование по горизонтали */
+  height: 100%; /* Занимает всю высоту родительского блока */
+  padding: 10px;
+  background-color: #e78cbe;
+  border-radius: 8px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   }
