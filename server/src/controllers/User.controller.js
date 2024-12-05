@@ -6,19 +6,19 @@ const cookiesConfig = require('../config/cookiesConfig');
 const generateTokens = require('../utils/generateTokens');
 
 class UserController {
-
   static async refreshTokens(req, res) {
     try {
-
       const { user } = res.locals;
 
       const { accessToken, refreshToken } = generateTokens({ user });
-      res.status(200).cookie('refreshToken', refreshToken, cookiesConfig).json(
-        formatResponse(200, 'Successfully generated new tokens', {
-          user,
-          accessToken,
-        })
-      );
+      res.status(200)
+        .cookie('refreshToken', refreshToken, cookiesConfig) 
+        .json(
+          formatResponse(200, 'New tokens have been successfully generated', {
+            user,
+            accessToken,
+          })
+        );
     } catch ({ message }) {
       console.error(message);
       res
@@ -28,12 +28,13 @@ class UserController {
   }
 
   static async signUp(req, res) {
-    const { email, username, password } = req.body;
-
+    const { email, username, password, phone } = req.body;
+    console.log(email, 1111, phone, 111, password, 111, username);
     const { isValid, error } = UserValidator.validateSignUp({
       email,
       username,
       password,
+      phone,
     });
 
     if (!isValid) {
@@ -42,12 +43,12 @@ class UserController {
         .json(formatResponse(400, 'Validation error', null, error));
     }
 
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = email ? email.toLowerCase() : null;
 
     try {
-      const userFound = await UserService.getByEmail(normalizedEmail);
-
-      if (userFound) {
+// is there such an email
+      const userFoundByEmail = email && (await UserService.getByEmail(normalizedEmail));
+      if (userFoundByEmail) {
         return res
           .status(400)
           .json(
@@ -60,22 +61,40 @@ class UserController {
           );
       }
 
+// is there such an email
+      const userFoundByPhone = phone && (await UserService.getByPhone(phone));
+      if (userFoundByPhone) {
+        return res
+          .status(400)
+          .json(
+            formatResponse(
+              400,
+              'A user with this phone number already exists',
+              null,
+              'A user with this phone number already exists'
+            )
+          );
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
+
       const newUser = await UserService.create({
         email: normalizedEmail,
         username,
         password: hashedPassword,
+        phone,
       });
 
       const plainUser = newUser.get({ plain: true });
       delete plainUser.password;
 
       const { accessToken, refreshToken } = generateTokens({ user: plainUser });
+
       res
         .status(201)
-        .cookie('refreshToken', refreshToken, cookiesConfig)
+        .cookie('refreshToken', refreshToken, cookiesConfig) 
         .json(
-          formatResponse(201, 'Login successful', {
+          formatResponse(201, 'Registration was successful', {
             user: plainUser,
             accessToken,
           })
@@ -89,10 +108,10 @@ class UserController {
   }
 
   static async signIn(req, res) {
-    const { email, password } = req.body;
+    const { email, phone, password } = req.body;
 
-    const { isValid, error } = UserValidator.validateSignIn({
-      email,
+    const { isValid, error } = UserValidator.validateSignIn({email,
+      phone,
       password,
     });
 
@@ -102,11 +121,13 @@ class UserController {
         .json(formatResponse(400, 'Validation error', null, error));
     }
 
-    const normalizedEmail = email.toLowerCase();
-
     try {
+      const normalizedEmail = email ? email.toLowerCase() : null;
 
-      const user = await UserService.getByEmail(normalizedEmail);
+// Search by email or phone
+      const user =
+        (email && (await UserService.getByEmail(normalizedEmail))) ||
+        (phone && (await UserService.getByPhone(phone)));
 
       if (!user) {
         return res
@@ -114,16 +135,14 @@ class UserController {
           .json(
             formatResponse(
               404,
-              'User with this email not found',
+              'The user with the same email or phone number was not found',
               null,
-              'User with this email not found'
+              'The user with the same email or phone number was not found'
             )
           );
       }
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-
-      if (!isPasswordValid) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);if (!isPasswordValid) {
         return res
           .status(401)
           .json(
@@ -135,11 +154,12 @@ class UserController {
       delete plainUser.password;
 
       const { accessToken, refreshToken } = generateTokens({ user: plainUser });
+
       res
         .status(200)
-        .cookie('refreshToken', refreshToken, cookiesConfig)
+        .cookie('refreshToken', refreshToken, cookiesConfig) 
         .json(
-          formatResponse(200, 'Login successful', {
+          formatResponse(200, 'The login was completed successfully', {
             user: plainUser,
             accessToken,
           })
@@ -153,11 +173,10 @@ class UserController {
   }
 
   static async signOut(req, res) {
-    console.log(req.cookies);
     try {
       res
-        .clearCookie('refreshToken')
-        .json(formatResponse(200, 'Logout successful'));
+        .clearCookie('refreshToken') 
+        .json(formatResponse(200, 'The logout was completed successfully'));
     } catch ({ message }) {
       console.error(message);
       res
