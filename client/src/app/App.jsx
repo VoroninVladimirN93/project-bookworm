@@ -1,12 +1,12 @@
-
-import MainPage from '../pages/MainPage/MainPage';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Navigation from '../widgets/Navigation/Navigation';
-import SignInPage from '../pages/SignInPage/SignInPage.jsx';
-import SignUpPage from '../pages/SignUpPage/SignUpPage.jsx';
-import { useEffect, useState } from 'react';
-import UserApi from '../entities/user/UserApi.js';
-import { setAccessToken } from '../shared/lib/axiosInstance.js';
+import MainPage from "../pages/MainPage/MainPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Navigation from "../widgets/Navigation/Navigation";
+import SignInPage from "../pages/SignInPage/SignInPage.jsx";
+import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
+import { useEffect, useState } from "react";
+import UserApi from "../entities/user/UserApi.js";
+import { setAccessToken } from "../shared/lib/axiosInstance.js";
+import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 
 function App() {
   //NOTE - состояние user заведено в корневом компоненте, чтобы иметь возможность прокинуть его в любую точку приложения
@@ -33,12 +33,13 @@ function App() {
   //NOTE - юзера можно прокидывать вниз по роутингу
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <Navigation user={user} setUser={setUser} />,
       children: [
-        { path: '/', element: <MainPage user={user} /> },
-        { path: '/signin', element: <SignInPage setUser={setUser} /> },
-        { path: '/signup', element: <SignUpPage setUser={setUser} /> },
+        { path: "/", element: <MainPage user={user} /> },
+        { path: "/signin", element: <SignInPage setUser={setUser} /> },
+        { path: "/signup", element: <SignUpPage setUser={setUser} /> },
+        
         // {
         //   path: '/computers',
         //   element: user ? (
@@ -51,6 +52,7 @@ function App() {
         // { path: '/hedgehogs', element: <HedgehogsPage /> },
       ],
     },
+    { path: "*", element: <ErrorPage /> },
   ]);
 
   return <RouterProvider router={router} />;
