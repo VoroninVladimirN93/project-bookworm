@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { message as antMessage } from "antd";
 import BookForm from "../../widgets/BookForm/BookForm";
-import BooksList from "../../widgets/BookList/BooksList";
+import BooksList from "../../widgets/BooksList/BooksList";
 
 function BookPage({ user }) {
     const mockupBook = [
@@ -17,29 +17,29 @@ function BookPage({ user }) {
         { id:10,title: 'Над пропастью во ржи', author: 'Джером Д. Сэлинджер', photo: 'http://localhost:3000/the_catcher_in_the_rye.jpg', createdAt: new Date(), updatedAt: new Date() }
       ]
 
-  const [books, setBooks] = useState(mockupBook); //! добавил моковые данные . После добавления ручек вернуть пустой массив
+  const [books, setBooks] = useState([]); //! добавил моковые данные . После добавления ручек вернуть пустой массив
   const [loading, setLoading] = useState(false);
 
-  const loadBooks = async () => {
-    setLoading(true);
-    try {
-      const { data, message, error, statusCode } = await BookApi.getBooks(); //! Добавить API
+  const loadBooks = async () => {setBooks(mockupBook)
+    // setLoading(true);
+    // try {
+    //   const { data, message, error, statusCode } = await BookApi.getBooks(); //! Добавить API
 
-      if (error) {
-        antMessage.error(error);
-        return;
-      }
-      antMessage.success(message);
-      if (statusCode === 200) {
-        setBooks(data);
-      }
-    } catch (error) {
-      antMessage.error(error.message);
-      console.log(error);
-    } finally {
-      antMessage.info("Загрузка завершена");
-      setLoading(false);
-    }
+    //   if (error) {
+    //     antMessage.error(error);
+    //     return;
+    //   }
+    //   antMessage.success(message);
+    //   if (statusCode === 200) {
+    //     setBooks(data);
+    //   }
+    // } catch (error) {
+    //   antMessage.error(error.message);
+    //   console.log(error);
+    // } finally {
+    //   antMessage.info("Загрузка завершена");
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
