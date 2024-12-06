@@ -20,7 +20,8 @@ class BookService {
   }
 
   static async getById(id) {
-    return await Book.findOne({
+    return await Book.findOne({ 
+      where: { id },
       include: [
         { model: Rating },
         { model: Favorites },
@@ -34,8 +35,8 @@ class BookService {
           ],
         },
       ],
-    })
-  }
+    });
+ } 
 
 
   static async getById_for_search(id) {
