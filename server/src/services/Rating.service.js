@@ -11,12 +11,17 @@ class RatingService {
   }
 
   static async updateOne(id, data) {
-    return await Rating.update({ where: { id } }, data);
+    return await Rating.update(data, { where: { id } })
   }
 
   static async getAll() {
     return await Rating.findAll();
   }
+
+  static async deleteOne(id) {
+    return await Rating.destroy({ where: { id } })
+  }
+
 }
 
 module.exports = RatingService;

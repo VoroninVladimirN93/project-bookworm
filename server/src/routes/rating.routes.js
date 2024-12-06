@@ -4,7 +4,7 @@ const verifyAccessToken = require('../middleware/verifyAccessToken');
 
 router
   
-  .get('/', RatingController.getAllController)
+  // .get('/', RatingController.getAllController)
 
   
   // .get('/:id', RatingController.getRatingById)
