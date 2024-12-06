@@ -43,7 +43,7 @@ function App() {
         { path: "/signup", element: <SignUpPage setUser={setUser} /> },
         { path: "/create_book", element: <BookForm user={user} setUser={setUser} /> },
         { path: `/books/:id`, element: <OneBookPage user={user} setUser={setUser} /> },
-        
+        { path: "*", element: <ErrorPage /> },
         
         // {
         //   path: '/computers',
@@ -57,7 +57,7 @@ function App() {
         // { path: '/hedgehogs', element: <HedgehogsPage /> },
       ],
     },
-    { path: "*", element: <ErrorPage /> },
+   
   ]);
 
   return <RouterProvider router={router} />;
