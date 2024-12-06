@@ -15,11 +15,11 @@ class UserValidator {
       filterData.phone = data.phone;
     }
     const { username, email, password, phone } = filterData;
-
+    
     if (
       (email === undefined && phone === undefined)
-    ) {
-      console.log(email, phone);
+    ) {  
+          console.log(email, phone);
       return {
         isValid: false,
         error: "Email or phone number are required!",
@@ -78,20 +78,7 @@ class UserValidator {
   }
 
   static validateSignIn(data) {
-    const { email, password } = data;
-
-    if (
-      !email ||
-      typeof email !== "string" ||
-      email.trim() === "" ||
-      !this.validateEmail(email)
-    ) {
-      return {
-        isValid: false,
-        error: "Email is required and must be a valid email address.",
-      };
-    }
-
+    const { password } = data;
     if (!password || typeof password !== "string" || password.trim() === "") {
       return {
         isValid: false,
