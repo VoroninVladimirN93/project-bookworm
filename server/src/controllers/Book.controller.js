@@ -134,9 +134,9 @@ class BookController {
           .json(
             formatResponse(
               400,
-              `No rights to delete book with id ${id}`,
+              `No book with id ${id}`,
               null,
-              `No rights to delete book with id ${id}`
+              `No book with id ${id}`
             )
           );
       }
