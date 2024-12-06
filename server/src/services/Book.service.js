@@ -1,17 +1,18 @@
-const { Book, User } = require('../db/models');
+const { Book, User, Rating, Favorites, Comment} = require('../db/models');
 
 class BookService {
     static async getAll() {
         return await Book.findAll({
-            include: [{model: User}],
+            include: [{model: Rating} , {model: Favorites} , {model: Comment}],
         })
     }
 
 
     static async getById(id) {
+        console.log('<<<<<<<<<',id);
+        
         return await Book.findOne({
             where:{ id },
-            include: [{ model: User }],
         })
     }
 
@@ -22,7 +23,14 @@ class BookService {
     }
 
     static async update(id, data) {
+        console.log(data);
+        
+        console.log(id);
+        
+        
         const book = await this.getById(id);
+        console.log(book);
+        
         if(book) {
             book.author = data.author;
             book.title = data.title

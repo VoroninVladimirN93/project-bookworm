@@ -50,7 +50,7 @@ function BookPage({ user }) {
     <div>
       {loading && <h3>Загрузка...</h3>}
       {/* {error && <h3 style={{ color: 'red' }}>{error}</h3>} */}
-      {user && <BookForm setBooks={setBooks} setLoading={setLoading} />}
+
       <BooksList books={books} setBooks={setBooks} user={user} />
     </div>
   );
