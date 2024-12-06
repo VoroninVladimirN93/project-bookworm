@@ -1,0 +1,52 @@
+.book-card {
+    width: 800px;
+    margin: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  
+  .book-cover {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  
+  .book-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 220px;
+  }
+  
+  .book-info .ant-card-meta-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .book-info .ant-card-meta-description {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .book-info .ant-rate {
+    margin-top: 10px;
+  }
+  
+  .book-card .ant-card-actions {
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  .book-card .ant-card-actions > li {
+    margin: 0;
+  }
+  
+  .book-card .ant-card-actions > li > span {
+    width: 100%;
+  }
+  
+  .book-card .full-width-button {
+    width: 100%;
+  }

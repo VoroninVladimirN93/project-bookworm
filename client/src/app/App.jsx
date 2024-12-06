@@ -11,9 +11,10 @@ import BookForm from "../widgets/BookForm/BookForm.jsx";
 import OneBookPage from "../pages/OneBookPage/OneBookPage.jsx";
 
 function App() {
-
+  //NOTE - состояние user заведено в корневом компоненте, чтобы иметь возможность прокинуть его в любую точку приложения
   const [user, setUser] = useState(null);
 
+  //NOTE - постоянный перезапрос данных по юзеру и токену
   useEffect(() => {
     UserApi.refreshTokens()
       .then(({ error, data, statusCode }) => {
@@ -31,6 +32,7 @@ function App() {
       });
   }, []);
 
+  //NOTE - юзера можно прокидывать вниз по роутингу
   const router = createBrowserRouter([
     {
       path: "/",
@@ -39,9 +41,17 @@ function App() {
         { path: "/", element: <MainPage user={user} /> },
         { path: "/signin", element: <SignInPage setUser={setUser} /> },
         { path: "/signup", element: <SignUpPage setUser={setUser} /> },
-        { path: "/create_book", element: <BookForm user={user} setUser={setUser} /> },
-        { path: `/books/:id`, element: <OneBookPage user={user} setUser={setUser} /> },
+        {
+          path: "/create_book",
+          element: <BookForm user={user} setUser={setUser} />,
+        },
+        {
+          path: `/books/:id`,
+          element: <OneBookPage user={user} setUser={setUser} />,
+        },
         { path: "*", element: <ErrorPage /> },
+      ],
+    },
   ]);
 
   return <RouterProvider router={router} />;
