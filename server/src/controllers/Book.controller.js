@@ -27,7 +27,7 @@ class BookController {
 
         static async getBookById(req, res) {
             const { id } =req.params
-            if (!isValid(id)) {
+            if (!isValidId(id)) {
                 return res.status(400).json(formatResponse(400, 'Invalid book ID'));
             }
 
