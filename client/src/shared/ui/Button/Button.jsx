@@ -17,7 +17,7 @@ export default function Button({
         style={{ backgroundColor: `${color}` }}
         disabled={disabled}
       >
-        {icon && <img src={icon} width={20} />}
+        {icon && <img src={''} width={0} />}
         {text}
         {children}
       </button>
