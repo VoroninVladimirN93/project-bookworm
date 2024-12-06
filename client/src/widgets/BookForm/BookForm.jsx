@@ -2,59 +2,70 @@ import React, { useState } from 'react';
 import Button from '../../shared/ui/Button/Button';
 import { message as antMessage } from 'antd';
 import BookApi from '../../entities/book/BookApi';
+import styles from './BookForm.module.css';
 
-export default function BookForm({setBooks, setLoading}) {
-    const [imputs, setImputs] = useState({author: '', title: '', photo: ''});
+export default function BookForm({ setBooks, setLoading }) {
+    const [inputs, setInputs] = useState({ author: '', title: '', photo: '' });
+    console.log(inputs);
 
     function onChangeHandler(e) {
-        setImputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     }
-    const isEmptyFormData = 
-        imputs.author.trim().length === 0 ||  imputs.title.trim().length === 0;
-        console.log(isEmptyFormData);
 
-        async function createBookHandler() {
-            if(isEmptyFormData) {
-                antMessage.error('Все поля обязательны к заполнению');
-            return;
-        }
-        setLoading(true);
+    const isEmptyFormData = 
+        inputs.author.trim().length === 0 || inputs.title.trim().length === 0;
+
+    async function createBookHandler() {
+   
         try {
-            const { data, message, error, statusCode } = await BookApi.createBook(imputs);
+            const { data, message, error, statusCode } = await BookApi.createBook(inputs);
             if (error) {
                 antMessage.error(error);
                 return;
             }
             antMessage.success(message);
             if (statusCode === 201) {
-                setBooks((prev) => [...prev, data]);
-                setImputs({author: '', title: '', photo: ''});
+              
+                setInputs({ author: '', title: '', photo: '' });
             }
-
         } catch (error) {
             antMessage.error(error.message);
-            console.log(error)
+            console.log(error);
         } finally {
             setLoading(false);
         }
     }
-   
-        return (
-        <div>
-            <input value={imputs.author} name='author' onChange={onChangeHandler} placeholder='Название книги'></input>
-            <input value={imputs.title} name='title' onChange={onChangeHandler} placeholder='Автор'></input>
-            <input value={imputs.photo} name='photo' onChange={onChangeHandler} placeholder='Добавьте обложку книги'></input>
+
+    return (
+        <div className={styles.formContainer}>
+            <input 
+                className={styles.inputField}
+                value={inputs.author} 
+                name='author' 
+                onChange={onChangeHandler} 
+                placeholder='Название книги'
+            />
+            <input 
+                className={styles.inputField}
+                value={inputs.title} 
+                name='title' 
+                onChange={onChangeHandler} 
+                placeholder='Автор'
+            />
+            <input 
+                className={styles.inputField}
+                value={inputs.photo} 
+                name='photo' 
+                onChange={onChangeHandler} 
+                placeholder='Добавьте обложку книги'
+            />
             <Button
+                className={styles.button}
                 text='Создать'
                 color='green'
                 onClick={createBookHandler}
-                disabled={isEmptyFormData}
-      />
+            
+            />
         </div>
     );
 }
-
-
-
-
-

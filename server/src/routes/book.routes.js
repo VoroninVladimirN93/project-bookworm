@@ -10,16 +10,16 @@ router
   .get('/:id', BookController.getBookById)
 
   
-  .post('/', verifyAccessToken, BookController.createBook)
+  // .post('/', verifyAccessToken, BookController.createBook)
 
  
   .put('/:id', verifyAccessToken, BookController.updateBook)
 
   
-  .delete('/:id', verifyAccessToken, BookController.deleteBook);
+  .delete('/:id', BookController.deleteBook)
 
 
-  // .post('/', BookController.createBook)
+  .post('/', BookController.createBook)
 
  
   // .put('/:id', BookController.updateBook)

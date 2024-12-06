@@ -37,15 +37,20 @@ class BookService {
     })
   }
 
+
+  static async getById_for_search(id) {
+    return await Book.findOne({ where : {id}}
+)}
+  
+
+
   static async create(data) {
     const newBook = await Book.create(data);
-    return await this.getById(newBook.id);
+    return await this.getById_for_search(newBook.id);
   }
 
   static async update(id, data) {
-    console.log(data);
 
-    console.log(id);
 
     const book = await this.getById(id);
     console.log(book);
@@ -60,7 +65,7 @@ class BookService {
   }
 
   static async delete(id) {
-    const book = await this.getById(id);
+    const book = await this.getById_for_search(id);
     if (book) {
       await book.destroy();
     }
