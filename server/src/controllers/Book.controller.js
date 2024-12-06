@@ -15,7 +15,7 @@ class BookController {
             }
 
 
-            res.status(200).json(formatResponse(200, 'seccess', books));
+            res.status(200).json(formatResponse(200, 'Success', books));
         } catch ({message}) {
             console.error(message);
             res 
@@ -39,7 +39,7 @@ class BookController {
                     .json(formatResponse(404, `Book with id ${id} not found`))
                 }
 
-                res.status(200).json(formatResponse(200, 'seccess', book));
+                res.status(200).json(formatResponse(200, 'Success', book));
             } catch ({message}) {
                 console.error(message);
                 res
@@ -69,7 +69,7 @@ class BookController {
                         .status(400)
                         .json(formatResponse(400, `Failed to create new book`));
                 }
-                res.status(201).json(formatResponse(201, 'seccess', newBook))
+                res.status(201).json(formatResponse(201, 'Success', newBook))
             } catch ({message}) {
                 console.error(message);
                 res 

@@ -9,7 +9,7 @@ class BookService {
 
 
     static async getById(id) {
-        console.log('<<<<<<<<<',id);
+
         
         return await Book.findOne({
             where:{ id }, include: [{model: Rating} , {model: Favorites} , {model: Comment}],

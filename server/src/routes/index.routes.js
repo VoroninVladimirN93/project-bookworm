@@ -3,11 +3,13 @@ const authRoutes = require('./auth.routes');
 const formatResponse = require('../utils/formatResponse');
 const bookRoutes = require('./book.routes'); 
 const ratingRoutes = require('./rating.routes'); 
+const commentRoutes = require('./comment.routes'); 
 
 router
 .use('/books', bookRoutes)
 .use('/auth', authRoutes)
 .use('/ratings', ratingRoutes)
+.use('/comments', commentRoutes)
 
 router.use('*', (req, res) => {
   res
