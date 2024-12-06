@@ -5,6 +5,7 @@ import UserValidator from "../../../../entities/user/User.validator";
 import UserApi from "../../../../entities/user/UserApi";
 import Button from "../../../../shared/ui/Button/Button";
 import { setAccessToken } from "../../../../shared/lib/axiosInstance";
+import "./AuthForm.css"; 
 
 export default function AuthForm({ type, setUser }) {
   const [inputs, setInputs] = useState({
@@ -103,14 +104,14 @@ export default function AuthForm({ type, setUser }) {
   };
 
   return (
-    <>
+    <div className="auth-form">
       <h3>{type === "signin" ? "Вход" : "Регистрация"}</h3>
       <form onSubmit={submitHandler}>
         <Radio.Group onChange={onRadioChange} value={inputs.authMethod}>
           <Radio value="email">Email</Radio>
           <Radio value="phone">Phone</Radio>
         </Radio.Group>
-
+  
         {inputs.authMethod === "email" && (
           <input
             onChange={changeHandler}
@@ -122,18 +123,17 @@ export default function AuthForm({ type, setUser }) {
             autoFocus
           />
         )}
-
         {inputs.authMethod === "phone" && (
           <input
             onChange={changeHandler}
-            type="tel" // Changed to 'tel' for phone number input
+            type="tel"
             name="phone"
             value={inputs.phone}
             placeholder="Phone"
             required
           />
         )}
-        
+  
         <input
           onChange={changeHandler}
           type="password"
@@ -142,15 +142,14 @@ export default function AuthForm({ type, setUser }) {
           placeholder="Password"
           required
         />
-          <input
-            onChange={changeHandler}
-            name="username"
-            value={inputs.username}
-            placeholder="Username"
-            required
-          />
-        
-        
+        {type === "signup" ? (<input 
+          onChange={changeHandler}
+          name="username"
+          value={inputs.username}
+          placeholder="Username"
+          required
+        />) : ""}
+  
         <Button
           text={type === "signin" ? "Вход" : "Регистрация"}
           color="green"
@@ -158,6 +157,6 @@ export default function AuthForm({ type, setUser }) {
           type="submit"
         />
       </form>
-    </>
+    </div>
   );
 }
