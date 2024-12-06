@@ -38,7 +38,7 @@ function OneBookPage({ user }) {
         <div>
             {loading && <h3>Загрузка...</h3>}
             {error && <h3 style={{ color: 'red' }}>{error}</h3>}
-            {book && <OneBookCard book={book} setBook={setBook} user={user} />}
+            {book && <OneBookCard book={book} setBook={setBook} user={user} loading={loading}/>}
         </div>
     );
 }

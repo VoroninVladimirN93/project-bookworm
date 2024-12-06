@@ -13,18 +13,18 @@ router
   // .post('/', verifyAccessToken, BookController.createBook)
 
  
-  // .put('/:id', verifyAccessToken, BookController.updateBook)
+  .put('/:id', verifyAccessToken, BookController.updateBook)
 
   
-  // .delete('/:id', verifyAccessToken, BookController.deleteBook);
+  .delete('/:id', BookController.deleteBook)
 
 
   .post('/', BookController.createBook)
 
  
-  .put('/:id', BookController.updateBook)
+  // .put('/:id', BookController.updateBook)
 
   
-  .delete('/:id', BookController.deleteBook);
+  // .delete('/:id', BookController.deleteBook);
 
 module.exports = router;
