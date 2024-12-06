@@ -1,140 +1,134 @@
 export default class UserValidator {
-  /**
-   * Метод для валидации данных пользователя при регистрации.
-   * @param {object} data - Объект данных пользователя, который необходимо проверить.
-   * @param {string} data.username - Имя пользователя (обязательное поле).
-   * @param {string} data.email - Email пользователя (обязательное поле).
-   * @param {string} data.password - Пароль пользователя (обязательное поле, должно быть определенной длины).
-   * @returns {object} - Объект, содержащий результат валидации.
-   * @returns {boolean} isValid - Флаг, указывающий на валидность данных.
-   * @returns {string|null} error - Сообщение об ошибке валидации, если имеется, иначе null.
-   */
   static validateSignUp(data) {
-    const { username, email, password } = data; // Деструктуризация объекта данных для получения полей username, email и password.
+    const filterData = {};
 
-    //! Проверка валидности поля username
-    if (!username || typeof username !== 'string' || username.trim() === '') {
-      // Если username отсутствует, не является строкой или является пустой строкой
-      return {
-        isValid: false, // Данные невалидные
-        error: 'Username is required and must be a non-empty string.', // Сообщение об ошибке с указанием типа ошибки
-      };
+    if (data.username !== undefined) {
+      filterData.username = data.username;
     }
+    if (data.email !== undefined) {
+      filterData.email = data.email;
+    }
+    if (data.password !== undefined) {
+      filterData.password = data.password;
+    }
+    if (data.phone !== undefined) {
+      filterData.phone = data.phone;
+    }
+    const { username, email, password, phone } = filterData;
 
-    //! Проверка валидности поля email
     if (
-      !email ||
-      typeof email !== 'string' ||
-      email.trim() === '' ||
-      !this.validateEmail(email) // Проверка на валидность email
+      (email === undefined && phone === undefined)
     ) {
-      // Если email отсутствует или некорректен
+      console.log(email, phone);
       return {
-        isValid: false, // Данные невалидные
-        error:
-          'Email is required, must be a non-empty string, and must be a valid email address.', // Более детальное сообщение об ошибке
+        isValid: false,
+        error: "Email or phone number are required!",
       };
     }
 
-    //! Проверка валидности поля password
+    if (!username || typeof username !== "string" || username.trim() === "") {
+      return {
+        isValid: false,
+        error: "Username is required and must be a non-empty string.",
+      };
+    }
+
+    if (
+      email &&
+      (typeof email !== "string" ||
+        email.trim() === "" ||
+        !this.validateEmail(email))
+    ) {
+      return {
+        isValid: false,
+        error:
+          "Email is required, must be a non-empty string, and must be a valid email address.",
+      };
+    }
+
     if (
       !password ||
-      typeof password !== 'string' ||
-      password.trim() === '' ||
-      !this.validatePassword(password) // Проверка на валидность password
+      typeof password !== "string" ||
+      password.trim() === "" ||
+      !this.validatePassword(password)
     ) {
-      // Если password отсутствует или некорректен
       return {
-        isValid: false, // Данные невалидные
+        isValid: false,
         error:
-          'Password is required, must be a non-empty string, contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.', // Подробное сообщение об ошибке
+          "Password is required, must be a non-empty string, contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
       };
     }
 
-    //* Если все проверки пройдены, возвращаем валидный результат.
-    return {
-      isValid: true, // Данные валидные
-      error: null, // Нет ошибок
-    };
-  }
-
-  /**
-   * Метод для валидации данных для входа.
-   * @param {object} data - Объект данных для входа.
-   * @param {string} data.email - Email пользователя (обязательное поле).
-   * @param {string} data.password - Пароль пользователя (обязательное поле).
-   * @returns {object} - Объект, содержащий результат валидации.
-   * @returns {boolean} isValid - Флаг, указывающий на валидность данных.
-   * @returns {string|null} error - Сообщение об ошибке валидации, если имеется, иначе null.
-   */
-  static validateSignIn(data) {
-    const { email, password } = data; // Деструктуризация данных для входа
-
-    //! Проверка валидности поля email
     if (
-      !email ||
-      typeof email !== 'string' ||
-      email.trim() === '' ||
-      !this.validateEmail(email) // Проверка на валидность email
+      phone &&
+      (typeof phone !== "string" ||
+        phone.trim() === "" ||
+        !this.validatePhone(phone))
     ) {
       return {
         isValid: false,
-        error: 'Email is required and must be a valid email address.',
+        error: "Phone number must be a valid format if provided.",
       };
     }
 
-    //! Проверка валидности поля password
-    if (!password || typeof password !== 'string' || password.trim() === '') {
-      return {
-        isValid: false,
-        error: 'Password is required and must not be an empty string.',
-      };
-    }
-
-    //* Если все проверки пройдены, возвращаем валидный результат.
     return {
       isValid: true,
       error: null,
     };
   }
 
-  /**
-   * Метод для валидации email.
-   * @param {string} email - Email для проверки.
-   * @returns {boolean} - Является ли email валидным.
-   */
-  static validateEmail(email) {
-    // Регулярное выражение для проверки формата email
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  static validateSignIn(data) {
+    const { email, password } = data;
 
-    // Проверка email на соответствие регулярному выражению
-    return emailPattern.test(email); // Возвращает true, если email валиден; false в противном случае
+    if (
+      !email ||
+      typeof email !== "string" ||
+      email.trim() === "" ||
+      !this.validateEmail(email)
+    ) {
+      return {
+        isValid: false,
+        error: "Email is required and must be a valid email address.",
+      };
+    }
+
+    if (!password || typeof password !== "string" || password.trim() === "") {
+      return {
+        isValid: false,
+        error: "Password is required and must not be an empty string.",
+      };
+    }
+
+    return {
+      isValid: true,
+      error: null,
+    };
   }
 
-  /**
-   * Метод для валидации пароля.
-   * @param {string} password - Пароль для проверки.
-   * @returns {boolean} - Является ли пароль валидным согласно заданным требованиям.
-   */
-  static validatePassword(password) {
-    // Регулярные выражения для проверки требований к паролю
-    const hasUpperCase = /[A-Z]/; // Проверка на наличие заглавной буквы
-    const hasLowerCase = /[a-z]/; // Проверка на наличие строчной буквы
-    const hasNumbers = /\d/; // Проверка на наличие цифры
-    const hasSpecialCharacters = /[!@#$%^&*()-,.?":{}|[\]<>]/; // Проверка на наличие спецсимвола
-    const isValidLength = password.length >= 8; // Проверка на минимальную длину
+  static validateEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
 
-    // Проверка всех условий
-    if (
-      !hasUpperCase.test(password) ||
-      !hasLowerCase.test(password) ||
-      !hasNumbers.test(password) ||
-      !hasSpecialCharacters.test(password) ||
-      !isValidLength
-    ) {
-      return false; // Пароль не валиден
-    } else {
-      return true; // Пароль валиден
-    }
+  static validatePhone(phone) {
+    const phoneRegex = /^\+?[0-9]{11}$/;
+    return phoneRegex.test(phone);
+  }
+
+  static validatePassword(password) {
+    const hasUpperCase = /[A-Z]/;
+    const hasLowerCase = /[a-z]/;
+    const hasNumbers = /d/;
+    const hasSpecialCharacters = /[!@#$%^&*()\-.,?":{}|<>]/;
+    const isValidLength = password.length >= 8;
+
+    return (
+      hasUpperCase.test(password) &&
+      hasLowerCase.test(password) &&
+      hasNumbers.test(password) &&
+      hasSpecialCharacters.test(password) &&
+      isValidLength
+    );
   }
 }
+
