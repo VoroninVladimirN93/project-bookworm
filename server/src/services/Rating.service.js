@@ -10,8 +10,12 @@ class RatingService {
     return await Rating.findAll({ where: { id } });
   }
 
-  static async updateOne(id) {
-    return await Rating.update({ where: { id } });
+  static async updateOne(id, data) {
+    return await Rating.update({ where: { id } }, data);
+  }
+
+  static async getAll() {
+    return await Rating.findAll();
   }
 }
 

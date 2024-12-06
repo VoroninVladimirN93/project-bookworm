@@ -50,7 +50,6 @@ class BookController {
 
         static async createBook(req, res) {
             const { author, photo, title } = req.body;
-            const { user } = res.locals;
             const { isValid, error } = BookValidator.validate({ author, title, photo });
             if(!isValid) {
                 return res 
@@ -81,9 +80,10 @@ class BookController {
 
         static async updateBook(req, res) {
             const { id } = req.params;
+            console.log(id);
+            
             const { author, title, photo  } = req.body;
 
-            const { user } = res.locals;
 
             if(!isValidId(id)) {
                 return res.status(400).json(formatResponse(400, 'Invalid book ID'))
@@ -99,19 +99,15 @@ class BookController {
 
             try {
                 const bookToUpdate = await BookService.getById(+id)
-                if(bookToUpdate.userId !== user.id) {
-                    return res 
-                        .status(400)
-                        .json(formatResponse(400, `No rights to update book with id ${id}`, null, `No rights to update book with id ${id}`))
-                }
-                const updateBook = await BookService.update(+id, {author, photo, title})
-                if (!updatedBook) {
+                if(bookToUpdate) 
+                {const updateBook = await BookService.update(+id, {author, photo, title})
+                if (!bookToUpdate) {
                     return res
                       .status(404)
                       .json(formatResponse(404, `Book with id ${id} not found`));
                   }
             
-                  res.status(200).json(formatResponse(200, 'success', updatedBook));
+                  res.status(200).json(formatResponse(200, 'success', updateBook));}
             } catch ({message}) {
                 console.error(message);
                 res
@@ -123,7 +119,6 @@ class BookController {
 
         static async deleteBook(req, res) {
             const { id } = req.params;
-            const { user } = res.locals;
 
             if(!isValidId(id)) {
                 return res.status(400).json(formatResponse(400, 'Invalid book ID'))
@@ -133,7 +128,7 @@ class BookController {
                 const bookToDelete = await BookService.getById(+id);
 
       
-      if (bookToDelete.userId !== user.id) {
+      if (!bookToDelete) {
         return res
           .status(400)
           .json(

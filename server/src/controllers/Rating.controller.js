@@ -1,16 +1,33 @@
 const bcrypt = require('bcrypt');
 const RatingService = require('../services/Rating.service');
 const formatResponse = require('../utils/formatResponse');
-const RatingValidator = require('../utils/Rating.validator');
+// const RatingValidator = require('../utils/Rating.validator');
 const cookiesConfig = require('../config/cookiesConfig');
 const generateTokens = require('../utils/generateTokens');
 
 class RatingController {
 
+  static async getAllController (req,res) {
+    try {
+       const allRating = await RatingService.getAll()
+       res
+        .status(200)
+        .json(formatResponse(200, `Get all rating done`, allRating , null));
+    }  catch ({ message }) {
+      console.error(message);
+      res
+        .status(500)
+        .json(formatResponse(500, 'Internal server error', null, message));
+    }
+  }
 
 static async createController (req,res) {
   try {
-     const {rating} = req.body
+     const {user_id, book_id ,rating} = req.body
+     const setRating = await RatingService.create({user_id, book_id ,rating})
+     res
+      .status(201)
+      .json(formatResponse(201, `Rating set ${rating}`, setRating , null));
   }  catch ({ message }) {
     console.error(message);
     res

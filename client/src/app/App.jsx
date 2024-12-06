@@ -41,8 +41,8 @@ function App() {
         { path: "/", element: <MainPage user={user} /> },
         { path: "/signin", element: <SignInPage setUser={setUser} /> },
         { path: "/signup", element: <SignUpPage setUser={setUser} /> },
-        { path: "/create_book", element: <BookForm setUser={setUser} /> },
-        { path: `/books/:id`, element: <OneBookPage setUser={setUser} /> },
+        { path: "/create_book", element: <BookForm user={user} setUser={setUser} /> },
+        { path: `/books/:id`, element: <OneBookPage user={user} setUser={setUser} /> },
         
         
         // {
