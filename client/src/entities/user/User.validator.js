@@ -78,19 +78,7 @@ export default class UserValidator {
   }
 
   static validateSignIn(data) {
-    const { email, password } = data;
-
-    if (
-      !email ||
-      typeof email !== "string" ||
-      email.trim() === "" ||
-      !this.validateEmail(email)
-    ) {
-      return {
-        isValid: false,
-        error: "Email is required and must be a valid email address.",
-      };
-    }
+    const { password } = data;
 
     if (!password || typeof password !== "string" || password.trim() === "") {
       return {
