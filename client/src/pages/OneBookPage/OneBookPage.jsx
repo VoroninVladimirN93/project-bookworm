@@ -1,56 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OneBookCard from '../../widgets/OneBookCard/OneBookCard';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import { message as antMessage } from "antd";
-import BookForm from "../../widgets/BookForm/BookForm";
-import BooksList from "../../widgets/BooksList/BooksList";
+import { message as antMessage } from 'antd';
+import BookApi from '../../entities/book/BookApi'; // Убедитесь, что у вас есть этот файл с API
 
 function OneBookPage({ user }) {
-
-    const mockupOneBook = { id:1, title: 'Убить пересмешника', author: 'Харпер Ли', photo: 'http://localhost:3000/to_kill_a_mockingbird.jpg', createdAt: new Date(), updatedAt: new Date() }
-      
     const { id } = useParams();
-
-    const [book, setBook] = useState([]);
+    const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(false);
-  
-    const loadOneBook = async () => {setBook(mockupOneBook)
-      // setLoading(true);
-      // try {
-      //   const { data, message, error, statusCode } = await BookApi.getBooks(); //! Добавить API
-  
-      //   if (error) {
-      //     antMessage.error(error);
-      //     return;
-      //   }
-      //   antMessage.success(message);
-      //   if (statusCode === 200) {
-      //     setBooks(data);
-      //   }
-      // } catch (error) {
-      //   antMessage.error(error.message);
-      //   console.log(error);
-      // } finally {
-      //   antMessage.info("Загрузка завершена");
-      //   setLoading(false);
-      // }
+    const [error, setError] = useState(null);
+
+    const loadOneBook = async () => {
+        setLoading(true);
+        try {
+            const { data, message, error, statusCode } = await BookApi.getBookById(id);
+
+            if (error) {
+                setError(error);
+                return;
+            }
+            if (statusCode === 200) {
+                setBook(data);
+            }
+        } catch (err) {
+            setError(err.message);
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
         loadOneBook();
-      }, []);
+    }, [id]);
 
     return (
         <div>
-        {loading && <h3>Загрузка...</h3>}
-        {/* {error && <h3 style={{ color: 'red' }}>{error}</h3>} */}
-  
-        <OneBookCard book={book} setBook={setBook} user={user} />
-      </div>
+            {loading && <h3>Загрузка...</h3>}
+            {error && <h3 style={{ color: 'red' }}>{error}</h3>}
+            {book && <OneBookCard book={book} setBook={setBook} user={user} />}
+        </div>
     );
 }
 
 export default OneBookPage;
-
-

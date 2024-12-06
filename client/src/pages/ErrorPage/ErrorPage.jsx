@@ -1,8 +1,7 @@
-
 function ErrorPage() {
     return (
         <div>
-            <h2>ОШИБКА</h2>
+            <h2>ЧОЧ</h2>
         </div>
     );
 }

@@ -12,8 +12,8 @@ class BookService {
         console.log('<<<<<<<<<',id);
         
         return await Book.findOne({
-            where:{ id },
-        })
+            where:{ id }, include: [{model: Rating} , {model: Favorites} , {model: Comment}],
+        } )
     }
 
 

@@ -15,7 +15,7 @@ function OneBookCard({ book, setBooks, user }) {
 
   console.log(id);
   console.log(user?.id);
-  
+  console.log(book);
   console.log(rating);
   async function deleteBookHandler(title) {
     if (user.id !== book.userId) {
@@ -80,36 +80,36 @@ const userData = {user_id,book_id,rating}
     <Card 
       className="book-card"
       cover={<img alt={book.title} src={book.photo} />}
-      actions={[
-        <Button key="more" type="primary" onClick={redirectButtonHandler}>
-          Подробнее
-        </Button>,
-        (user?.id === book.userId && (
-          <Button key="delete" type="danger" onClick={() => deleteBookHandler(book.title)}>
-            Удалить
-          </Button>
-        )),
-        (user?.id === book.userId && (
-          <Button
-            key="update"
-            type="warning"
-            onClick={() => setShowUpdateForm((prev) => !prev)}
-          >
-            {showUpdateForm ? 'Скрыть' : 'Изменить'}
-          </Button>
-        )),
-      ]}
+      // actions={[
+      //   <Button key="more" type="primary" onClick={redirectButtonHandler}>
+      //     Подробнее
+      //   </Button>,
+      //   (user?.id === book.userId && (
+      //     <Button key="delete" type="danger" onClick={() => deleteBookHandler(book.title)}>
+      //       Удалить
+      //     </Button>
+      //   )),
+      //   (user?.id === book.userId && (
+      //     <Button
+      //       key="update"
+      //       type="warning"
+      //       onClick={() => setShowUpdateForm((prev) => !prev)}
+      //     >
+      //       {showUpdateForm ? 'Скрыть' : 'Изменить'}
+      //     </Button>
+      //   )),
+      // ]}
     >
-          <Rate defaultValue={rating} count={10} onChange={(rating) => { setRating(rating) 
+          <Rate defaultValue={Math.floor(book.Ratings.reduce((sum, e) => sum + (e.rating || 0), 0) / book.Ratings.length) || 0} count={10} onChange={(rating) => { setRating(rating) 
             return setRatingFunc(rating, user.id, )}}/>
 
             <p></p>
       <Card.Meta
-        title={book.title}
-        description={book.author}
+                title={`${book.title}`}
+                description={`Автор: ${book.author}`}
         
       />
-
+ <p>Средний рейтинг: {(book.Ratings.reduce((sum, e) => sum + (e.rating || 0), 0) / book.Ratings.length) || 'Нет оценок'}</p>
       {/* {showUpdateForm && user.id === book.userId && (
         <BookUpdateForm
           user={user}
